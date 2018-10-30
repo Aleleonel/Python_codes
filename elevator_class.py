@@ -6,6 +6,7 @@ class Elevador():
         terreo = True 
 
     def limite_de_ocupantes(self, embarque):
+        
         soma = sum(embarque)
         if soma > 8:
             nao_embarq = soma - 8
@@ -14,7 +15,8 @@ class Elevador():
                 self.ocupantes.append(1)
                 embarq -= 1
             self.soma_fim = sum(self.ocupantes)
-            print(f'Limite maximo de 8 pessoas, {self.soma_fim} embarcaram e {nao_embarq} não puderam embarcar')
+                        
+            return self.imprime(self.soma_fim, nao_embarq)
         else:
             embarq = soma
             nao_embarq = 0
@@ -22,9 +24,9 @@ class Elevador():
                 self.ocupantes.append(1)
                 embarq -= 1
             self.soma_fim = sum(self.ocupantes)
-            print(f'Limite maximo de 8 pessoas, {self.soma_fim} embarcaram')
+            
+            return self.imprime(self.soma_fim, nao_embarq)
                         
-
     def entra(self):
         op = 'S'
         embarque = list()
@@ -32,14 +34,57 @@ class Elevador():
             emb = int(input('Quantos pretendem entrar? : '))
             embarque.append(emb)
             op = str(input('Alguem mais deseja embarcar? [S/N]'))
+
         return self.limite_de_ocupantes(embarque)
     
-    def imprime(self, soma_fim):
-        print(f'{self.soma_fim} embarcaram com sucesso')
+    def sair(self, ocupantes):
 
-
-
-
+        self.pessoas = list()
+        for i in range (len(self.ocupantes)):
+            self.pessoas.append(1)
+        sm = sum(self.pessoas)            
+        print(sm)
+        desemb = int(input('Qtos desejam descer?: '))
+        for i in self.pessoas:
+            soma = sum(self.pessoas)
+        if desemb > soma:
+            print(f'Apenas {soma} estão no elevador')
+            desemb = int(input('Qtos realmente desejam descer?: '))
+            for i in self.pessoas:
+                soma = sum(self.pessoas)
+            if desemb > soma:
+                desemb = soma
+                while desemb > 1:
+                    desemb -= 1
+                    self.pessoas.pop(1)                    
+                soma = sum(self.pessoas)
+                if soma == 1:
+                    self.pessoas = []  
+                    soma = 0 
+                print(f'Elevador vazio')
+            elif desemb < soma:
+                while desemb >= 1:
+                    desemb -= 1
+                    self.pessoas.pop(1)                    
+                soma = sum(self.pessoas)
+                print(f'Restaram apenas {soma} pessoas no elevador')                       
+        else:
+            if desemb == 1:
+                self.pessoas.pop(1)
+                soma = sum(self.pessoas)
+                print(f'Restam {soma} pessoas no elevador')
+            else:
+                while desemb > 1:
+                    desemb -= 1
+                    self.pessoas.pop(1)
+                    soma = sum(self.pessoas)
+                print(f'Restam {soma} pessoas no elevador')
+    
+    def imprime(self, soma_fim, nao_embarq):
+        if nao_embarq == 0:
+            print(f'{self.soma_fim} embarcaram com sucesso')
+        else:
+            print(f'Limite maximo de 8 pessoas, apenas {self.soma_fim} embarcaram, Capacidade excedida em {nao_embarq} pessoas ')
 
 
 class Nao_usada():
@@ -84,52 +129,10 @@ class Nao_usada():
                     andar = andar_atual
 
 
-
-
-    def sair():
-
-        pessoas = [1, 1, 1, 1,]       
-        desemb = int(input('Qtos desejam descer?: '))
-        for i in pessoas:
-            soma = sum(pessoas)
-        if desemb > soma:
-            print(f'Apenas {soma} estão no elevador')
-            desemb = int(input('Qtos realmente desejam descer?: '))
-            for i in pessoas:
-                soma = sum(pessoas)
-            if desemb > soma:
-                desemb = soma
-                while desemb > 1:
-                    desemb -= 1
-                    pessoas.pop(1)                    
-                soma = sum(pessoas)
-                if soma == 1:
-                    pessoas = []  
-                    soma = 0 
-                print(f'Elevador vazio')
-            elif desemb < soma:
-                while desemb >= 1:
-                    desemb -= 1
-                    pessoas.pop(1)                    
-                soma = sum(pessoas)
-                print(f'Restaram apenas {soma} pessoas no elevador')
-                
-
-                
-        else:
-            if desemb == 1:
-                pessoas.pop(1)
-                soma = sum(pessoas)
-                print(f'Restam {soma} pessoas no elevador')
-            else:
-                while desemb > 1:
-                    desemb -= 1
-                    pessoas.pop(1)
-                    soma = sum(pessoas)
-                print(f'Restam {soma} pessoas no elevador')
-
-        return ''
-
-
 elevator = Elevador(8, 30)
-elevator.entra()
+menu = int(input('Digite [1] para entrar no Elevador: '))
+if menu == 1:
+    elevator.entra()
+    menu = int(input('Digite [2] para escolher quantos vão descer?'))
+if menu == 2:
+    elevator.sair(3)

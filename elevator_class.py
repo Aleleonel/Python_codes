@@ -2,7 +2,7 @@ class Elevador():
     def __init__(self, capacidade, total_andares):
         self.capacidade = capacidade
         self.ocupantes = list()
-        self.total_andares = total_andares
+        self.total_andares = 28
         terreo = True 
 
     def limite_de_ocupantes(self, embarque):
@@ -86,10 +86,7 @@ class Elevador():
         else:
             print(f'Limite maximo de 8 pessoas, apenas {self.soma_fim} embarcaram, Capacidade excedida em {nao_embarq} pessoas ')
 
-
-class Nao_usada():
-
-    def sobe():
+    def sobe(self):
 
         terreo = True
         andar_atual = 0
@@ -98,41 +95,53 @@ class Nao_usada():
         while andar == 0:
             if andar == 0:
                 print(f'Andar atual Terreo')
+                andar_atual = 0
+                terreo = True
             andar = int(input('Digite o Andar desejado: '))
-            if terreo is True and andar != andar_atual and andar < 28:
+            if terreo is True and andar != andar_atual and andar <= self.total_andares:
                 andar_atual = andar
                 print(f'Você subiu até o andar {andar_atual}')
                 terreo = False
                 while terreo is False:
                     andar = int(input('Digite o Andar desejado: '))
-                    if andar != andar_atual and  andar > andar_atual and andar < 28:
+                    if andar != andar_atual and  andar > andar_atual and andar <= self.total_andares:
                         andar_atual = andar
+                        terreo = False
                         print(f'Você subiu para o andar {andar_atual}')
                     elif andar != andar_atual and andar < andar_atual and andar != 0:
                         andar_atual = andar
                         print(f'Você desceu ao {andar_atual} andar')
-                    elif andar == andar_atual:
+                        terreo = False
+                    elif andar == andar_atual and andar != 0:
                         andar_atual = andar
+                        terreo = False
                         print(f'Vocẽ já se encontra no andar {andar_atual}')
-                    elif andar != andar_atual and andar == 0:
-                        andar_atual = andar
-                        print(f'Você desceu ao Terreo')
-                        terreo = True
-                    elif andar > 27:
-                        print(f'andar invalido esse elevador só vai ate o andar 27!')
+                    
+                    elif andar != 0 and andar > self.total_andares:
+                        andar_atual = andar_atual
+                        terreo = False
+                        print(f'andar invalido esse elevador só vai ate o andar {self.total_andares}!')
+                        print(f'seu andar atual é {andar_atual}')
+                    
                     elif andar == 0:
+                        andar_atual = andar
                         terreo = True
-                        print(f'Você desceu ao Terreo')
+                        print(f'Você desceu ao Terreo')                 
             else:
-                if andar > 27:
-                    print(f'andar invalido esse elevador só vai ate o andar 27!')
-                    andar = andar_atual
+                if andar > self.total_andares:
+                    andar = 0
+                    terreo = True
+                    print(f'andar invalido esse elevador só vai ate o andar {self.total_andares}!')
+                    
+                    
 
 
 elevator = Elevador(8, 30)
 menu = int(input('Digite [1] para entrar no Elevador: '))
 if menu == 1:
     elevator.entra()
-    menu = int(input('Digite [2] para escolher quantos vão descer?'))
+    menu = int(input('Digite [2] para escolher um andar: '))
 if menu == 2:
-    elevator.sair(3)
+    elevator.sobe()
+elif menu == 3:
+     elevator.sair(3)
